@@ -215,10 +215,10 @@ namespace InstaSharp.Endpoints
         /// Lists all subscriptions
         /// </summary>
         /// <returns>Subscription Response</returns>
-        public Task<SubscriptionResponse> ListAllSubscriptions()
+        public Task<ListAllSubscriptionsResponse> ListAllSubscriptions()
         {
             var request = Request(null);
-            return Client.ExecuteAsync<SubscriptionResponse>(request);
+            return Client.ExecuteAsync<ListAllSubscriptionsResponse>(request);
         }
     }
 }
