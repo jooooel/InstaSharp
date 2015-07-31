@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using InstaSharp.Models.Responses;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
+using InstaSharp.Models;
 
 namespace InstaSharp.Extensions
 {
@@ -15,32 +17,40 @@ namespace InstaSharp.Extensions
         {
             var response = await client.SendAsync(request);
             string resultData = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<T>(resultData);
 
-            var endpointResponse = result as Response;
-
-            if (endpointResponse != null)
+            try
             {
-                if (response.Headers.Contains(RateLimitHeader))
+                var result = JsonConvert.DeserializeObject<T>(resultData);
+
+                var endpointResponse = result as Response;
+
+                if (endpointResponse != null)
                 {
-                    endpointResponse.RateLimitLimit =
-                        response.Headers
-                            .GetValues(RateLimitHeader)
-                            .Select(int.Parse)
-                            .SingleOrDefault();
+                    if (response.Headers.Contains(RateLimitHeader))
+                    {
+                        endpointResponse.RateLimitLimit =
+                            response.Headers
+                                .GetValues(RateLimitHeader)
+                                .Select(int.Parse)
+                                .SingleOrDefault();
+                    }
+
+                    if (response.Headers.Contains(RateLimitRemainingHeader))
+                    {
+                        endpointResponse.RateLimitRemaining =
+                            response.Headers
+                                .GetValues(RateLimitRemainingHeader)
+                                .Select(int.Parse)
+                                .SingleOrDefault();
+                    }
                 }
 
-                if (response.Headers.Contains(RateLimitRemainingHeader))
-                {
-                    endpointResponse.RateLimitRemaining =
-                        response.Headers
-                            .GetValues(RateLimitRemainingHeader)
-                            .Select(int.Parse)
-                            .SingleOrDefault();
-                }
+                return result;
             }
-
-            return result;
+            catch (JsonReaderException exception)
+            {
+                throw new InstaSharpException(string.Format("Failed to parse {0}", resultData), exception);
+            }
         }
     }
 }

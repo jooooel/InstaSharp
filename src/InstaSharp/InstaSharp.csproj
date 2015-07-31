@@ -44,6 +44,7 @@
     <Compile Include="Endpoints\PageReader.cs" />
     <Compile Include="Models\Attribution.cs" />
     <Compile Include="Models\IncomingStatus.cs" />
+    <Compile Include="Models\InstaSharpException.cs" />
     <Compile Include="Models\MediaSize.cs" />
     <Compile Include="Endpoints\NamespaceDoc.cs" />
     <Compile Include="Endpoints\Relationships.cs" />
