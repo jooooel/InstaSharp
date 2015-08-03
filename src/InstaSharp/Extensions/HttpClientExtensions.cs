@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using InstaSharp.Models.Responses;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -49,7 +48,7 @@ namespace InstaSharp.Extensions
             }
             catch (JsonReaderException exception)
             {
-                throw new InstaSharpException(string.Format("Failed to parse {0}", resultData), exception);
+                throw new InstaSharpException(string.Format("Response: {0}. Failed to parse {1}", JsonConvert.SerializeObject(response), resultData), exception);
             }
         }
     }
