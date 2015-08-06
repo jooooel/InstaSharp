@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net;
 using InstaSharp.Models.Responses;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -19,6 +20,14 @@ namespace InstaSharp.Extensions
 
             try
             {
+                if (!response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.ServiceUnavailable)
+                {
+                    // This is something that happens from now and then when calling the Instagram API
+                    // It probably has to do with some kind of overload on Instagrams side
+                    // Throw an exception with InstaSharpExceptionType.InstagramApiUnavailable and let the caller handle it
+                    throw new InstaSharpException(string.Format("Instagram API is unavailable. Failed to execute request: {0}. Response: {1}", JsonConvert.SerializeObject(request), JsonConvert.SerializeObject(response)), InstaSharpExceptionType.InstagramApiUnavailable);
+                }
+
                 var result = JsonConvert.DeserializeObject<T>(resultData);
 
                 var endpointResponse = result as Response;
