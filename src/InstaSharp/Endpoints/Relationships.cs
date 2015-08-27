@@ -83,7 +83,7 @@ namespace InstaSharp.Endpoints
         /// </summary>
         /// <param name="userId">The list of users that this user id is following.</param>
         /// <returns>UsersResponse</returns>
-        public Task<UsersResponse> Follows(int userId)
+        public Task<UsersResponse> Follows(long userId)
         {
             return Follows(userId, null);
         }
@@ -96,7 +96,7 @@ namespace InstaSharp.Endpoints
         /// <param name="userId">The list of users that this user id is following.</param>
         /// <param name="cursor">The next cursor id</param>
         /// <returns>UsersResponse</returns>
-        public Task<UsersResponse> Follows(int userId, string cursor)
+        public Task<UsersResponse> Follows(long userId, string cursor)
         {
             var request = Request("{id}/follows");
             request.AddUrlSegment("id", userId.ToString());
@@ -136,7 +136,7 @@ namespace InstaSharp.Endpoints
         /// </summary>
         /// <param name="userId">The list of users that this user id is following.</param>
         /// <returns>UsersResponse</returns>
-        public async Task<List<User>> FollowsAll(int userId)
+        public async Task<List<User>> FollowsAll(long userId)
         {
             AssertIsAuthenticated();
             return await new PageReader<User, UsersResponse>().ReadPages(userId, Follows);
@@ -150,7 +150,7 @@ namespace InstaSharp.Endpoints
         /// </summary>
         /// <param name="userId">The id of the user to get the followers of.</param>
         /// <returns>Users response</returns>
-        public Task<UsersResponse> FollowedBy(int userId)
+        public Task<UsersResponse> FollowedBy(long userId)
         {
             return FollowedBy(userId, null);
         }
@@ -163,7 +163,7 @@ namespace InstaSharp.Endpoints
         /// <param name="userId">The id of the user to get the followers of.</param>
         /// <param name="cursor">The next cursor id</param>
         /// <returns>Users response</returns>
-        public Task<UsersResponse> FollowedBy(int userId, string cursor)
+        public Task<UsersResponse> FollowedBy(long userId, string cursor)
         {
             var request = Request("{id}/followed-by");
             request.AddUrlSegment("id", userId.ToString());
@@ -195,7 +195,7 @@ namespace InstaSharp.Endpoints
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>RelationshipResponse</returns>
-        public Task<RelationshipResponse> Relationship(int userId)
+        public Task<RelationshipResponse> Relationship(long userId)
         {
             var request = Request("{id}/relationship");
             request.AddUrlSegment("id", userId.ToString());
@@ -212,7 +212,7 @@ namespace InstaSharp.Endpoints
         /// <param name="userId">The user id about which to get relationship information.</param>
         /// <param name="action">One of Action enum.</param>
         /// <returns>RelationshipResponse</returns>
-        public Task<RelationshipResponse> Relationship(int userId, Action action)
+        public Task<RelationshipResponse> Relationship(long userId, Action action)
         {
             var request = Request("{id}/relationship", HttpMethod.Post);
             request.AddUrlSegment("id", userId.ToString());

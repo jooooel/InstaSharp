@@ -28,8 +28,8 @@ namespace InstaSharp.Tests
         [TestMethod, TestCategory("Users.Get")]
         public async Task Get_Id()
         {
-            var result = await users.Get("3808579");
-            Assert.IsTrue(result.Data.Username == "nasagoddard", "Parameters: userId");
+            var result = await users.Get("2147645938");
+            Assert.IsTrue(result.Data.Username == "anotherprecioussoul", "Parameters: userId");
         }
 
         [TestMethod, TestCategory("Users.Get")]
