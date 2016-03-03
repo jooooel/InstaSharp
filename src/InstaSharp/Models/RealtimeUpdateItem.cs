@@ -14,7 +14,7 @@ namespace InstaSharp.Models
         /// The sub scription identifier.
         /// </value>
         [JsonProperty("SubScription_ID")]
-        public int SubScriptionId { get; set; }
+        public long SubScriptionId { get; set; }
 
         /// <summary>
         /// Gets or sets the object.
