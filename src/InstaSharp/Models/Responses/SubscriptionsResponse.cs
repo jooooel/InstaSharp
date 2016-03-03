@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-
 namespace InstaSharp.Models.Responses
 {
     /// <summary>
-    /// List All Subscriptions Response
+    /// Subscriptions Response
     /// </summary>
-    public class ListAllSubscriptionsResponse : Response
+    public class SubscriptionsResponse : Response
     {
         /// <summary>
         /// Gets or sets the data.
@@ -13,6 +12,6 @@ namespace InstaSharp.Models.Responses
         /// <value>
         /// The data.
         /// </value>
-        public IEnumerable<Subscription> Data { get; set; }
+        public List<Subscription> Data { get; set; }
     }
 }

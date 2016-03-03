@@ -41,8 +41,6 @@ namespace InstaSharp.Tests
             AssertResponseCorrect(result);
             Assert.AreEqual(null, result.Height);
             Assert.AreEqual(600, result.Width);
-            Assert.AreEqual(306, result.ThumbnailHeight);
-            Assert.AreEqual(306, result.ThumbnailWidth);
             //The CDN url changes sometimes. Assert.AreEqual("https://instagramimages-a.akamaihd.net/media/2010/10/02/7e4051fdcf1d45ab9bc1fba2582c0c6b_6.jpg", result.ThumbnailUrl);
         }
 
@@ -74,13 +72,12 @@ namespace InstaSharp.Tests
 
         private static void AssertResponseCorrect(OEmbedResponse result)
         {
-            Assert.AreEqual("https://instagram.com/", result.ProviderUrl);
+            Assert.AreEqual("https://www.instagram.com", result.ProviderUrl);
             Assert.AreEqual(72, result.AuthorId);
             Assert.AreEqual("5382_72", result.MediaId);
             Assert.AreEqual("danrubin", result.AuthorName);
-            Assert.AreEqual("https://instagram.com/danrubin", result.AuthorUrl);
+            Assert.AreEqual("https://www.instagram.com/danrubin", result.AuthorUrl);
             Assert.AreEqual("Instagram", result.ProviderName);
-            Assert.AreEqual("https://instagram.com/", result.ProviderUrl);
             Assert.AreEqual("Rays", result.Title);
             Assert.AreEqual("rich", result.Type);
             Assert.AreEqual(1.0, result.Version);
