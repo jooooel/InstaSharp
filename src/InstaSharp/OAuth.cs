@@ -78,11 +78,12 @@ namespace InstaSharp
         /// <param name="callbackUri">The callback URI.</param>
         /// <param name="scopes">The scopes.</param>
         /// <param name="responseType">Type of the response.</param>
+        /// <param name="state">Optional parameter to "carry through a server-specific state"</param>
         /// <returns>The authentication url</returns>
-        public static string AuthLink(string instagramOAuthUri, string clientId, string callbackUri, List<Scope> scopes, ResponseType responseType = ResponseType.Token)
+        public static string AuthLink(string instagramOAuthUri, string clientId, string callbackUri, List<Scope> scopes, ResponseType responseType = ResponseType.Token, string state = null)
         {
             var scopesForUri = BuildScopeForUri(scopes);
-            return BuildAuthUri(instagramOAuthUri, clientId, callbackUri, responseType, scopesForUri);
+            return BuildAuthUri(instagramOAuthUri, clientId, callbackUri, responseType, scopesForUri, state);
         }
 
         /// <summary>
@@ -91,15 +92,17 @@ namespace InstaSharp
         /// <param name="config">Instagram configuration.</param>
         /// <param name="scopes">The scopes.</param>
         /// <param name="responseType">Type of the response.</param>
+        /// <param name="state">Optional parameter to "carry through a server-specific state"</param>
         /// <returns>The authentication url</returns>
-        public static string AuthLink(InstagramConfig config, List<Scope> scopes, ResponseType responseType = ResponseType.Token)
+        public static string AuthLink(InstagramConfig config, List<Scope> scopes, ResponseType responseType = ResponseType.Token, string state = null)
         {
             var scopesForUri = BuildScopeForUri(scopes);
             return BuildAuthUri(config.OAuthUri.TrimEnd('/') + "/authorize", 
                 config.ClientId, 
                 config.RedirectUri, 
                 responseType, 
-                scopesForUri);
+                scopesForUri,
+                state);
         }
 
         /// <summary>
@@ -155,16 +158,24 @@ namespace InstaSharp
         /// <param name="callbackUri">The callback URI.</param>
         /// <param name="scopes">The scopes.</param>
         /// <param name="responseType">Type of the response.</param>
+        /// <param name="state">Optional parameter to "carry through a server-specific state"</param>
         /// <returns>The authentication uri</returns>
-        private static string BuildAuthUri(string instagramOAuthUri, string clientId, string callbackUri, ResponseType responseType, string scopes)
+        private static string BuildAuthUri(string instagramOAuthUri, string clientId, string callbackUri, ResponseType responseType, string scopes, string state = null)
         {
-            return string.Format("{0}?client_id={1}&redirect_uri={2}&response_type={3}&scope={4}", new object[] {
+            var authUri = string.Format("{0}?client_id={1}&redirect_uri={2}&response_type={3}&scope={4}", new object[] {
                 instagramOAuthUri.ToLower(),
                 clientId.ToLower(), 
                 callbackUri, 
                 responseType.ToString().ToLower(),
                 scopes.ToLower()
             });
+
+            if (state != null)
+            {
+                authUri = $"{authUri}&state={state}";
+            }
+
+            return authUri;
         }
     }
 }
