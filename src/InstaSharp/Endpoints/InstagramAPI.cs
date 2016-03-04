@@ -80,7 +80,7 @@ namespace InstaSharp.Endpoints
         /// <exception cref="System.InvalidOperationException">You are not authenticated</exception>
         protected void AssertIsAuthenticated()
         {
-            if (OAuthResponse == null || OAuthResponse.User == null)
+            if (OAuthResponse == null || (OAuthResponse.User == null && OAuthResponse.AccessToken == null))
             {
                 throw new InvalidOperationException("You are not authenticated");
             }
@@ -153,13 +153,13 @@ namespace InstaSharp.Endpoints
 
         internal virtual HttpRequestMessage AddAuth(HttpRequestMessage request)
         {
-            if (OAuthResponse == null)
+            if (!string.IsNullOrEmpty(OAuthResponse?.AccessToken))
             {
-                request.AddParameter("client_id", InstagramConfig.ClientId);
+                request.AddParameter("access_token", OAuthResponse.AccessToken);
             }
             else
             {
-                request.AddParameter("access_token", OAuthResponse.AccessToken);
+                request.AddParameter("client_id", InstagramConfig.ClientId);
             }
 
             return request;
