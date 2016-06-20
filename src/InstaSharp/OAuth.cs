@@ -114,16 +114,16 @@ namespace InstaSharp
         {
             var client = new HttpClient { BaseAddress = new Uri(config.OAuthUri) };
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri(client.BaseAddress, "access_token"));
-            //HttpClient client = new HttpClient();
-            //var request = new HttpRequestMessage(HttpMethod.Post, "https://api.instagram.com/oauth/access_token");
-            var myParameters = string.Format("client_id={0}&client_secret={1}&grant_type={2}&redirect_uri={3}&code={4}",
-                config.ClientId.UrlEncode(),
-                config.ClientSecret.UrlEncode(), 
-                "authorization_code".UrlEncode(),
-                config.RedirectUri.UrlEncode(), 
-                code.UrlEncode());
 
-            request.Content = new StringContent(myParameters);
+            var multipartFormDataContent = new MultipartFormDataContent
+            {
+                {new StringContent(config.ClientId), "client_id"},
+                {new StringContent(config.ClientSecret), "client_secret"},
+                {new StringContent("authorization_code"), "grant_type"},
+                {new StringContent(config.RedirectUri), "redirect_uri"},
+                {new StringContent(code), "code"},
+            };
+            request.Content = multipartFormDataContent;
 
             return client.ExecuteAsync<OAuthResponse>(request);
 
