@@ -22,5 +22,14 @@ namespace InstaSharp.Models.Responses
         /// </value>
         [JsonProperty("Access_Token")]
         public string AccessToken { get; set; }
+
+        [JsonProperty("code")]
+        public int? ErrorCode { get; set; }
+
+        [JsonProperty("error_type")]
+        public string ErrorType { get; set; }
+
+        [JsonProperty("error_message")]
+        public string ErrorMessage { get; set; }
     }
 }
